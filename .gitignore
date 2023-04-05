@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,node,phpstorm,react,solidity
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,node,phpstorm,react,solidity
 
+### seed and deployment url ###
+secret.js
+
 ### macOS ###
 # General
 .DS_Store
