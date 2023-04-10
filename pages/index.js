@@ -1,40 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button, Card } from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 import Layout from '../components/Layout';
+import { Link } from '../routes';
 
-class Index extends Component {
-  static async getInitialProps() {
-    const campaigns = await factory.methods.getDeployedCampaigns().call();
-
-    return { campaigns };
-  }
-
-  renderCampaigns() {
-    const items = this.props.campaigns.map((address) => {
+const Index = (props) => {
+  const renderCampaigns = () => {
+    const items = props.campaigns.map((address) => {
       return {
         header: address,
-        description: <a>View Campaign</a>,
+        description: (
+          <Link route={`/campaigns/${address}`}>
+            <a>View Campaign</a>
+          </Link>
+        ),
         fluid: true,
       };
     });
 
     return <Card.Group items={items} />;
-  }
+  };
 
-  render() {
-    return (
-      <Layout>
-        <Button
-          floated="right"
-          content="Create Campaign"
-          icon="add circle"
-          primary
-        />
-        {this.renderCampaigns()}
-      </Layout>
-    );
-  }
-}
+  return (
+    <Layout>
+      <Link route="/campaigns/new">
+        <a>
+          <Button
+            floated="right"
+            content="Create Campaign"
+            icon="add circle"
+            primary
+          />
+        </a>
+      </Link>
+      {renderCampaigns()}
+    </Layout>
+  );
+};
+
+Index.getInitialProps = async () => {
+  const campaigns = await factory.methods.getDeployedCampaigns().call();
+
+  return { campaigns };
+};
 
 export default Index;
